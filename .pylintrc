@@ -1,0 +1,9 @@
+[MASTER]
+extension-pkg-whitelist=
+ignore=venv
+
+[FORMAT]
+max-line-length=88  # Align with Black formatter
+
+[MESSAGES CONTROL]
+disable=C0114,C0115,C0116  # Disable missing docstrings warnings
