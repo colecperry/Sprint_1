@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 from typing import Optional
 
-from app.database import get_db
-from app.models import User, UserRole
+from CommonAssessmentTool.app.database import get_db
+from CommonAssessmentTool.app.models import User, UserRole
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt

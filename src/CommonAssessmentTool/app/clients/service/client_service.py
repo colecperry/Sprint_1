@@ -5,8 +5,8 @@ Provides CRUD operations and business logic for client management.
 
 from typing import Optional
 
-from app.clients.schema import ClientUpdate, ServiceUpdate
-from app.models import Client, ClientCase, User
+from CommonAssessmentTool.app.clients.schema import ClientUpdate, ServiceUpdate
+from CommonAssessmentTool.app.models import Client, ClientCase, User
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 

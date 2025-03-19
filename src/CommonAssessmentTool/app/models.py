@@ -13,8 +13,8 @@ from sqlalchemy import (
     String,
 )
 from sqlalchemy.orm import relationship
-from app.database import Base
-from app.enums import UserRole, GenderEnum
+from CommonAssessmentTool.app.database import Base
+from CommonAssessmentTool.app.enums import UserRole, GenderEnum
 
 
 class User(Base):

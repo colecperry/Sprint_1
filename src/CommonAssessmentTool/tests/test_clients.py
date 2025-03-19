@@ -8,6 +8,7 @@ VALID_CLIENT_ID = 1
 INVALID_CLIENT_ID = 999
 MIN_SUCCESS_RATE = 70
 
+
 # Test GET Operations
 def test_get_clients_unauthorized(client):
     """Test that unauthorized access is prevented"""
@@ -52,7 +53,7 @@ def test_get_clients_by_criteria(client, admin_headers):
 
     response = client.get(
         "/clients/search/by-criteria",
-        params={"age_min": 15},  
+        params={"age_min": 15},
         headers=admin_headers,
     )
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -83,7 +84,9 @@ def test_get_client_services(client, admin_headers):
 def test_get_clients_by_success_rate(client, admin_headers):
     """Test getting clients by success rate threshold"""
     response = client.get(
-        "/clients/search/success-rate", params={"min_rate": MIN_SUCCESS_RATE}, headers=admin_headers
+        "/clients/search/success-rate",
+        params={"min_rate": MIN_SUCCESS_RATE},
+        headers=admin_headers,
     )
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()) > 0
@@ -91,10 +94,14 @@ def test_get_clients_by_success_rate(client, admin_headers):
 
 def test_get_clients_by_case_worker(client, admin_headers, case_worker_headers):
     """Test getting clients assigned to a case worker"""
-    response = client.get(f"/clients/case-worker/{VALID_CASE_WORKER_ID}", headers=admin_headers)
+    response = client.get(
+        f"/clients/case-worker/{VALID_CASE_WORKER_ID}", headers=admin_headers
+    )
     assert response.status_code == status.HTTP_200_OK
 
-    response = client.get(f"/clients/case-worker/{VALID_CASE_WORKER_ID}", headers=case_worker_headers)
+    response = client.get(
+        f"/clients/case-worker/{VALID_CASE_WORKER_ID}", headers=case_worker_headers
+    )
     assert response.status_code == status.HTTP_200_OK
 
 
@@ -102,7 +109,9 @@ def test_get_clients_by_case_worker(client, admin_headers, case_worker_headers):
 def test_update_client(client, admin_headers):
     """Test updating client information"""
     update_data = {"age": 26, "currently_employed": True, "time_unemployed": 0}
-    response = client.put(f"/clients/{VALID_CLIENT_ID}", json=update_data, headers=admin_headers)
+    response = client.put(
+        f"/clients/{VALID_CLIENT_ID}", json=update_data, headers=admin_headers
+    )
     assert response.status_code == status.HTTP_200_OK
     updated_client = response.json()
     assert updated_client["age"] == 26

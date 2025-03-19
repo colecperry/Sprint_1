@@ -1,5 +1,5 @@
 from fastapi import status
-from app.enums import UserRole, GenderEnum
+from CommonAssessmentTool.app.enums import UserRole, GenderEnum
 
 print("UserRole Enum Values:", UserRole.__members__)
 
@@ -46,14 +46,18 @@ def test_create_user_success(client, admin_headers):
 
 def test_create_user_duplicate_username(client, admin_headers):
     """Test creating user with existing username"""
-    response = client.post("/auth/users", headers=admin_headers, json=DUPLICATE_USERNAME_USER)
+    response = client.post(
+        "/auth/users", headers=admin_headers, json=DUPLICATE_USERNAME_USER
+    )
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert "Username already registered" in response.json()["detail"]
 
 
 def test_create_user_duplicate_email(client, admin_headers):
     """Test creating user with existing email"""
-    response = client.post("/auth/users", headers=admin_headers, json=DUPLICATE_EMAIL_USER)
+    response = client.post(
+        "/auth/users", headers=admin_headers, json=DUPLICATE_EMAIL_USER
+    )
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert "Email already registered" in response.json()["detail"]
 
@@ -138,7 +142,9 @@ def test_token_user_deleted(client, admin_headers):
     assert response.status_code == status.HTTP_200_OK
 
     # Get token for new user
-    response = client.post("/auth/token", data={"username": "temporary", "password": "temppass123"})
+    response = client.post(
+        "/auth/token", data={"username": "temporary", "password": "temppass123"}
+    )
     token = response.json()["access_token"]
 
     # Try using the token

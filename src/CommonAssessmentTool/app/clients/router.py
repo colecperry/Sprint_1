@@ -5,17 +5,17 @@ Handles all HTTP requests for client operations including create, read, update, 
 
 from typing import List, Optional
 
-from app.auth.router import get_admin_user, get_current_user
-from app.clients.schema import (
+from CommonAssessmentTool.app.auth.router import get_admin_user, get_current_user
+from CommonAssessmentTool.app.clients.schema import (
     ClientListResponse,
     ClientResponse,
     ClientUpdate,
     ServiceResponse,
     ServiceUpdate,
 )
-from app.clients.service.client_service import ClientService
-from app.database import get_db
-from app.models import User
+from CommonAssessmentTool.app.clients.service.client_service import ClientService
+from CommonAssessmentTool.app.database import get_db
+from CommonAssessmentTool.app.models import User
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
 

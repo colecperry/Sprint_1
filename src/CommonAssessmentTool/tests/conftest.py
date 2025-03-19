@@ -1,9 +1,9 @@
 import pytest
-from app.auth.router import get_password_hash
-from app.database import Base, get_db
-from app.main import app
-from app.models import Client, ClientCase, User
-from app.enums import UserRole, GenderEnum
+from CommonAssessmentTool.app.auth.router import get_password_hash
+from CommonAssessmentTool.app.database import Base, get_db
+from CommonAssessmentTool.app.main import app
+from CommonAssessmentTool.app.models import Client, ClientCase, User
+from CommonAssessmentTool.app.enums import UserRole, GenderEnum
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -148,6 +148,7 @@ def test_db():
 @pytest.fixture
 def client(test_db):
     """Creates a test client with overridden database dependency."""
+
     def override_get_db():
         try:
             yield test_db

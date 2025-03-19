@@ -1,10 +1,11 @@
 import pandas as pd
 import traceback
 from sqlalchemy.orm import Session
-from app.database import SessionLocal
-from app.models import Client, User, ClientCase
-from app.enums import UserRole, GenderEnum
-from app.auth.router import get_password_hash
+from CommonAssessmentTool.app.database import SessionLocal
+from CommonAssessmentTool.app.models import Client, User, ClientCase
+from CommonAssessmentTool.app.enums import UserRole, GenderEnum
+from CommonAssessmentTool.app.auth.router import get_password_hash
+import os
 
 
 def create_default_users(db: Session):
@@ -56,7 +57,12 @@ def map_gender(value):
 def load_client_data(db: Session):
     """Loads and processes client data from CSV into the database."""
     print("Loading CSV data...")
-    df = pd.read_csv("app/clients/service/data_commontool.csv")
+
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(BASE_DIR, "app/clients/service/data_commontool.csv")
+
+    df = pd.read_csv(csv_path)
+
 
     integer_columns = [
         "age",
