@@ -1,69 +1,72 @@
 from fastapi import status
+from app.enums import UserRole, GenderEnum
+
+print("UserRole Enum Values:", UserRole.__members__)
+
+
+# Reusable User Data
+NEW_USER = {
+    "username": "newuser",
+    "email": "new@test.com",
+    "password": "testpass123",
+    "role": UserRole.CASE_WORKER.value,
+}
+
+DUPLICATE_USERNAME_USER = {
+    "username": "testadmin",  # This username exists in test database
+    "email": "another@test.com",
+    "password": "testpass123",
+    "role": UserRole.CASE_WORKER.value,
+}
+
+DUPLICATE_EMAIL_USER = {
+    "username": "uniqueuser",
+    "email": "testadmin@example.com",  # This email exists in test database
+    "password": "testpass123",
+    "role": UserRole.CASE_WORKER.value,
+}
+
+INVALID_ROLE_USER = {
+    "username": "newuser",
+    "email": "new@test.com",
+    "password": "testpass123",
+    "role": "invalid_role",  # Invalid role
+}
 
 
 def test_create_user_success(client, admin_headers):
     """Test successful user creation by admin"""
-    user_data = {
-        "username": "newuser",
-        "email": "new@test.com",
-        "password": "testpass123",
-        "role": "case_worker",
-    }
-    response = client.post("/auth/users", headers=admin_headers, json=user_data)
+    response = client.post("/auth/users", headers=admin_headers, json=NEW_USER)
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    assert data["username"] == "newuser"
-    assert data["role"] == "case_worker"
+    assert data["username"] == NEW_USER["username"]
+    assert data["role"] == NEW_USER["role"]
     assert "password" not in data  # Password should not be in response
 
 
 def test_create_user_duplicate_username(client, admin_headers):
     """Test creating user with existing username"""
-    user_data = {
-        "username": "testadmin",  # This username exists in test database
-        "email": "another@test.com",
-        "password": "testpass123",
-        "role": "case_worker",
-    }
-    response = client.post("/auth/users", headers=admin_headers, json=user_data)
+    response = client.post("/auth/users", headers=admin_headers, json=DUPLICATE_USERNAME_USER)
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert "Username already registered" in response.json()["detail"]
 
 
 def test_create_user_duplicate_email(client, admin_headers):
     """Test creating user with existing email"""
-    user_data = {
-        "username": "uniqueuser",
-        "email": "testadmin@example.com",  # This email exists in test database
-        "password": "testpass123",
-        "role": "case_worker",
-    }
-    response = client.post("/auth/users", headers=admin_headers, json=user_data)
+    response = client.post("/auth/users", headers=admin_headers, json=DUPLICATE_EMAIL_USER)
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert "Email already registered" in response.json()["detail"]
 
 
 def test_create_user_invalid_role(client, admin_headers):
     """Test creating user with invalid role"""
-    user_data = {
-        "username": "newuser",
-        "email": "new@test.com",
-        "password": "testpass123",
-        "role": "invalid_role",  # Invalid role
-    }
-    response = client.post("/auth/users", headers=admin_headers, json=user_data)
+    response = client.post("/auth/users", headers=admin_headers, json=INVALID_ROLE_USER)
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
 
 def test_create_user_unauthorized(client):
     """Test user creation without authentication"""
-    user_data = {
-        "username": "newuser",
-        "email": "new@test.com",
-        "password": "testpass123",
-        "role": "case_worker",
-    }
-    response = client.post("/auth/users", json=user_data)
+    response = client.post("/auth/users", json=NEW_USER)
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
@@ -125,19 +128,17 @@ def test_missing_token(client):
 def test_token_user_deleted(client, admin_headers):
     """Test using token of deleted user"""
     # First create a new user as admin
-    user_data = {
+    temp_user = {
         "username": "temporary",
         "email": "temp@test.com",
         "password": "temppass123",
-        "role": "admin",  # Changed to admin so they can access /clients/
+        "role": "admin",
     }
-    response = client.post("/auth/users", headers=admin_headers, json=user_data)
+    response = client.post("/auth/users", headers=admin_headers, json=temp_user)
     assert response.status_code == status.HTTP_200_OK
 
     # Get token for new user
-    response = client.post(
-        "/auth/token", data={"username": "temporary", "password": "temppass123"}
-    )
+    response = client.post("/auth/token", data={"username": "temporary", "password": "temppass123"})
     token = response.json()["access_token"]
 
     # Try using the token

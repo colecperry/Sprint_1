@@ -20,10 +20,11 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # Base class for models
 Base = declarative_base()
 
+
 def get_db():
     """
     Creates and yields a database session, ensuring it is closed properly.
-    
+
     Yields:
         Session: SQLAlchemy database session
     """

@@ -11,9 +11,11 @@ from app.auth.router import router as auth_router
 from app.clients.router import router as clients_router
 from app.database import engine
 
+
 def setup_database():
     """Initializes database tables."""
     models.Base.metadata.create_all(bind=engine)
+
 
 def create_app():
     """Creates and configures the FastAPI application."""
@@ -35,6 +37,7 @@ def create_app():
     )
 
     return app
+
 
 # Initialize database and application
 setup_database()
