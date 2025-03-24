@@ -10,6 +10,7 @@ from CommonAssessmentTool.app import models
 from CommonAssessmentTool.app.auth.router import router as auth_router
 from CommonAssessmentTool.app.clients.router import router as clients_router
 from CommonAssessmentTool.app.database import engine
+from CommonAssessmentTool.app.ml.router import router as model_router
 
 
 def setup_database():
@@ -42,3 +43,6 @@ def create_app():
 # Initialize database and application
 setup_database()
 app = create_app()
+
+# Include ML router
+app.include_router(model_router)

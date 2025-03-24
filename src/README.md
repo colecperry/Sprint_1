@@ -18,9 +18,10 @@ $ .venv\Scripts\activate # Windows
 
 3️⃣ Install Dependencies
 $ pip install -r requirements.txt
-$ pip install -e .
+$ pip install -e . # Installs requirements-dev.txt file
 
 📦 Building the Project
+$ pip install build
 $ python -m build
 
 🚀 Starting the Backend
@@ -37,7 +38,7 @@ http://127.0.0.1:8000/docs # provides an interactice API documentation with all 
 $ export PYTHONPATH=$PWD/src
 
 2️⃣ Run Unit Tests
-$ pytest tests/
+$ pytest tests/ # Run it from inside src/CommonAssessmentTool
 OR
 $ python -m pytest tests/
 
@@ -67,4 +68,4 @@ $ python -m CommonAssessmentTool.initialize_data
 1️⃣ Bypass Pre-Commit Hooks (if needed)
 $ git commit -m "Your commit message" --no-verify
 $ git push origin main
-
+$ deactivate # Deactivate virtual environment before exiting
