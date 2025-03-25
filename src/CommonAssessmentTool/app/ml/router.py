@@ -28,10 +28,10 @@ async def select_model(request: ModelSelectRequest):
 
 @router.post("/predict")
 async def predict(request: PredictRequest):
-    model = model_manager.get_model()
+    model = model_manager.get_model() # Retrieve the model
 
     try:
         prediction = model.predict([request.features])
-        return {"prediction": int(prediction[0])}  # 👈 This line was changed
+        return {"prediction": int(prediction[0])}  # Return an integer
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
