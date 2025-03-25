@@ -11,7 +11,6 @@ from sqlalchemy.orm import sessionmaker
 
 # Load database URL from environment variable (default to SQLite)
 load_dotenv()
-print("DEBUG DATABASE_URL:", os.getenv("DATABASE_URL"))
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Create database engine

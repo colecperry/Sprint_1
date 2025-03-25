@@ -1,9 +1,6 @@
 from fastapi import status
 from CommonAssessmentTool.app.enums import UserRole, GenderEnum
 
-print("UserRole Enum Values:", UserRole.__members__)
-
-
 # Reusable User Data
 NEW_USER = {
     "username": "newuser",

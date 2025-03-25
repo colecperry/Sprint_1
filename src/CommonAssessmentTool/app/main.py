@@ -28,6 +28,7 @@ def create_app():
 
     app.include_router(auth_router)
     app.include_router(clients_router)
+    app.include_router(model_router)
 
     app.add_middleware(
         CORSMiddleware,
@@ -44,5 +45,3 @@ def create_app():
 setup_database()
 app = create_app()
 
-# Include ML router
-app.include_router(model_router)
