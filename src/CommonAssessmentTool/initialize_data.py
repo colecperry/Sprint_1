@@ -5,6 +5,7 @@ from CommonAssessmentTool.app.database import SessionLocal
 from CommonAssessmentTool.app.models import Client, User, ClientCase
 from CommonAssessmentTool.app.enums import UserRole, GenderEnum
 from CommonAssessmentTool.app.auth.router import get_password_hash
+from CommonAssessmentTool.app.ml.model_manager import model_manager
 import os
 
 
@@ -143,6 +144,7 @@ def initialize_database():
     try:
         create_default_users(db)
         load_client_data(db)
+        _ = model_manager.get_model() # Force models to train
         print("✅ Database initialization completed successfully!")
     except Exception as e:
         print("❌ Error during initialization:")

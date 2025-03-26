@@ -10,6 +10,7 @@ from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv
 
+
 # Create test database
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")

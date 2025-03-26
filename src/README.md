@@ -29,6 +29,11 @@ $ python -m build
 $ export PYTHONPATH=$PWD/src
 $ uvicorn CommonAssessmentTool.app.main:app --reload
 # server will be avaiable at : http://127.0.0.1:8000
+# Avaiable endpoints: 
+    # GET -> /models/available -> list available model names
+    # GET -> /models/current -> Get the current active model names
+    # POST -> /models/select -> Switch the active model
+    # POST -> /models/predict -> Make a prediction with input features
 
 3️⃣ Open API Docs
 http://127.0.0.1:8000/docs # provides an interactice API documentation with all available endpoints
