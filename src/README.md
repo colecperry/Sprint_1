@@ -69,8 +69,23 @@ $ mypy src/
 $ export PYTHONPATH=$PWD/src
 $ python -m CommonAssessmentTool.initialize_data
 
+## 🚀 Running the Backend with Docker
+### 🐳 Docker (no Compose)
+
+
+$ docker build -t coles_image -f src/Dockerfile .
+$ docker run -it --rm -p 8000:8000 coles_image
+
+$ docker-compose up --build # App will be available at http://localhost:8000
+
+# TO STOP
+CRTL + C
+$ docker-compose down
+
+
 🔄 Committing Changes to Git
 1️⃣ Bypass Pre-Commit Hooks (if needed)
 $ git commit -m "Your commit message" --no-verify
 $ git push origin main
 $ deactivate # Deactivate virtual environment before exiting
+
